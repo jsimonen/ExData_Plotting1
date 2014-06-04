@@ -21,26 +21,22 @@
 datafile <- "household_power_consumption.txt"
 edata <- read.csv(datafile,stringsAsFactors=FALSE,sep = ";", na.strings = "?")
 
-# combine date and time to single string, then 
-# convert the strings to date objects
-#datetime <- paste(edata[,"Date"],edata[,"Time"])          # date and time string
-#datetimeobj <- strptime(datetime,format = "%d/%m/%Y %H:%M:%S")     # date object
-
-# add a datetime column to the data for easier processing
-#edata2 <- cbind(edata,datetimeobj)
-#names(edata2)[10] <- "Datetime"
-
-edata[,"Date"] <- as.Date(edata[,"Date"],format = "%d/%m/%Y")
-#edata[,"Time"] <- strptime(edata[,"Time"],format = "%H:%M:%S")
+# change the date column into a date object that contains the time as well
+datetime <- paste(edata[,"Date"],edata[,"Time"])          # date and time string
+datetimeobj <- strptime(datetime,format = "%d/%m/%Y %H:%M:%S")     # date object
+edata$Date <- datetimeobj
 
 # subset the data: "We will only be using data from the dates 2007-02-01 and 2007-02-02"
-edata2 <- subset(edata,Date > as.Date("2007-01-31"))
-edata2 <- subset(edata2,Date < as.Date("2007-02-03"))
+# there's something funny about the definition of ">" for dates - it works like ">="
+edata2 <- subset(edata,Date > strptime("2007-02-01",format = "%Y-%m-%d"))
+edata2 <- subset(edata2,Date < strptime("2007-02-03",format = "%Y-%m-%d"))
 
-# now we have the proper subset of the data so it is time to plot it
-hist(edata2$Global_active_power,col = "red",xlab="Global Active Power (kilowatts)",main="Global Active Power")
-#title(main="Global Active Power")
+# make the line plot
+# note that the x-axis abbreviated days are in Finnish, my locale!
+plot(edata2$Date,edata2$Global_active_power,type="l",xlab="",ylab="Global Active Power (kilowatts)")
 
 # save the plot to a png file
-dev.copy(png, file = "plot1.png") ## Copy my plot to a PNG file
+dev.copy(png, file = "plot2.png") ## Copy my plot to a PNG file
 dev.off() ## Don't forget to close the PNG device!
+
+
