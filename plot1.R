@@ -38,4 +38,9 @@ edata2 <- subset(edata,Date > as.Date("2007-01-31"))
 edata2 <- subset(edata2,Date < as.Date("2007-02-03"))
 
 # now we have the proper subset of the data so it is time to plot it
-hist(edata2$Global_active_power)
+hist(edata2$Global_active_power,col = "red",xlab="Global Active Power (kilowatts)",main="Global Active Power")
+title(main="Global Active Power")
+
+# save the plot to a png file
+dev.copy(png, file = "plot1.png") ## Copy my plot to a PNG file
+dev.off() ## Don't forget to close the PNG device!
