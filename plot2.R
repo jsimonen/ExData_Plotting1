@@ -32,7 +32,8 @@ edata2 <- subset(edata,Date > strptime("2007-02-01",format = "%Y-%m-%d"))
 edata2 <- subset(edata2,Date < strptime("2007-02-03",format = "%Y-%m-%d"))
 
 # make the line plot
-# note that the x-axis abbreviated days are in Finnish, my locale!
+# my locale is not English, so to get the x-axis right I need to change it
+Sys.setlocale(category = "LC_TIME", locale="English")
 plot(edata2$Date,edata2$Global_active_power,type="l",xlab="",ylab="Global Active Power (kilowatts)")
 
 # save the plot to a png file

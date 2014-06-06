@@ -33,18 +33,19 @@ edata2 <- subset(edata2,Date < strptime("2007-02-03",format = "%Y-%m-%d"))
 
 # make the line plot
 # note that the x-axis abbreviated days are in Finnish, my locale!
+Sys.setlocale(category = "LC_TIME", locale="English")
 par(mfrow = c(2, 2)) # 2 by 2 plot matrix
 # fig 1
-hist(edata2$Global_active_power,col = "red",xlab="Global Active Power (kilowatts)",main="Global Active Power")
+with(edata2,plot(Date,Global_active_power,xlab="",ylab="Global Active Power",type="l"))
 # fig 2
-plot(edata2$Date,edata2$Voltage,type="l")
+with(edata2,plot(Date,Voltage,type="l",xlab="datetime"))
 # fig 3
 with(edata2,plot(Date,Sub_metering_1,type="l",col="black",xlab="",ylab="Energy sub metering"))
 with(edata2,lines(Date,Sub_metering_2,type="l",col="red"))
 with(edata2,lines(Date,Sub_metering_3,type="l",col="blue"))
-legend("topright",lty=c(1,1),col = c("black", "red", "blue"),legend=c("Sub_metering_1","Sub_metering_2","Sub_metering_3"))
+legend("topright",lty=c(1,1),col = c("black", "red", "blue"),legend=c("Sub_metering_1","Sub_metering_2","Sub_metering_3"),bty="n",y.intersp=0.8)
 # fig 4
-plot(edata2$Date,edata2$Global_reactive_power,type="l")
+with(edata2,plot(Date,Global_reactive_power,type="l",xlab="datetime"))
 
 # save the plot to a png file
 dev.copy(png, file = "plot4.png") ## Copy my plot to a PNG file

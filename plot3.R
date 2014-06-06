@@ -32,7 +32,8 @@ edata2 <- subset(edata,Date > strptime("2007-02-01",format = "%Y-%m-%d"))
 edata2 <- subset(edata2,Date < strptime("2007-02-03",format = "%Y-%m-%d"))
 
 # make the line plot
-# note that the x-axis abbreviated days are in Finnish, my locale!
+# my locale is not English, so to get the x-axis right I need to change it
+Sys.setlocale(category = "LC_TIME", locale="English")
 with(edata2,plot(Date,Sub_metering_1,type="l",col="black",xlab="",ylab="Energy sub metering"))
 with(edata2,lines(Date,Sub_metering_2,type="l",col="red"))
 with(edata2,lines(Date,Sub_metering_3,type="l",col="blue"))
