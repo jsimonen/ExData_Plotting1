@@ -1,13 +1,19 @@
-## plot1.R
+## plot3.R
 # Coursera Exploratory Data Analysis 2014
 # Course Project 1
+#
+# Goal: to reproduce a given plot.
+#
 # by Janne Simonen
 
-# Data Description: Measurements of electric power consumption in one household with a one-minute sampling rate over a period of almost 4 years. Different electrical quantities and some sub-metering values are available.
+# Data Description: Measurements of electric power consumption in one household
+# with a one-minute sampling rate over a period of almost 4 years. Different
+# electrical quantities and some sub-metering values are available.
 # 
-# The following descriptions of the 9 variables in the dataset are taken from the UCI web site:
+# The following descriptions of the 9 variables in the dataset are taken from
+# the UCI web site:
 #   
-#   Date: Date in format dd/mm/yyyy
+# Date: Date in format dd/mm/yyyy
 # Time: time in format hh:mm:ss
 # Global_active_power: household global minute-averaged active power (in kilowatt)
 # Global_reactive_power: household global minute-averaged reactive power (in kilowatt)
@@ -31,15 +37,16 @@ edata$Date <- datetimeobj
 edata2 <- subset(edata,Date > strptime("2007-02-01",format = "%Y-%m-%d"))
 edata2 <- subset(edata2,Date < strptime("2007-02-03",format = "%Y-%m-%d"))
 
-# make the line plot
+# make the line plot, three plots in one
 # my locale is not English, so to get the x-axis right I need to change it
 Sys.setlocale(category = "LC_TIME", locale="English")
+png(file="plot3.png")
 with(edata2,plot(Date,Sub_metering_1,type="l",col="black",xlab="",ylab="Energy sub metering"))
 with(edata2,lines(Date,Sub_metering_2,type="l",col="red"))
 with(edata2,lines(Date,Sub_metering_3,type="l",col="blue"))
 legend("topright",lty=c(1,1),col = c("black", "red", "blue"),legend=c("Sub_metering_1","Sub_metering_2","Sub_metering_3"))
 
 # save the plot to a png file
-dev.copy(png, file = "plot3.png") ## Copy my plot to a PNG file
-dev.off() ## Don't forget to close the PNG device!
+#dev.copy(png, file = "plot3.png") ## Copy my plot to a PNG file
+dev.off()                         ## Don't forget to close the PNG device!
 

@@ -1,13 +1,19 @@
 ## plot1.R
 # Coursera Exploratory Data Analysis 2014
 # Course Project 1
+#
+# Goal: to reproduce a given plot.
+#
 # by Janne Simonen
 
-# Data Description: Measurements of electric power consumption in one household with a one-minute sampling rate over a period of almost 4 years. Different electrical quantities and some sub-metering values are available.
+# Data Description: Measurements of electric power consumption in one household
+# with a one-minute sampling rate over a period of almost 4 years. Different
+# electrical quantities and some sub-metering values are available.
 # 
-# The following descriptions of the 9 variables in the dataset are taken from the UCI web site:
+# The following descriptions of the 9 variables in the dataset are taken from
+# the UCI web site:
 #   
-#   Date: Date in format dd/mm/yyyy
+# Date: Date in format dd/mm/yyyy
 # Time: time in format hh:mm:ss
 # Global_active_power: household global minute-averaged active power (in kilowatt)
 # Global_reactive_power: household global minute-averaged reactive power (in kilowatt)
@@ -21,26 +27,21 @@
 datafile <- "household_power_consumption.txt"
 edata <- read.csv(datafile,stringsAsFactors=FALSE,sep = ";", na.strings = "?")
 
-# combine date and time to single string, then 
-# convert the strings to date objects
-#datetime <- paste(edata[,"Date"],edata[,"Time"])          # date and time string
-#datetimeobj <- strptime(datetime,format = "%d/%m/%Y %H:%M:%S")     # date object
-
-# add a datetime column to the data for easier processing
-#edata2 <- cbind(edata,datetimeobj)
-#names(edata2)[10] <- "Datetime"
-
-edata[,"Date"] <- as.Date(edata[,"Date"],format = "%d/%m/%Y")
-#edata[,"Time"] <- strptime(edata[,"Time"],format = "%H:%M:%S")
+# change the date column into a date object that contains the time as well
+datetime <- paste(edata[,"Date"],edata[,"Time"])          # date and time string
+datetimeobj <- strptime(datetime,format = "%d/%m/%Y %H:%M:%S")     # date object
+edata$Date <- datetimeobj
 
 # subset the data: "We will only be using data from the dates 2007-02-01 and 2007-02-02"
-edata2 <- subset(edata,Date > as.Date("2007-01-31"))
-edata2 <- subset(edata2,Date < as.Date("2007-02-03"))
+# there's something funny about the definition of ">" for dates - it works like ">="
+edata2 <- subset(edata,Date > strptime("2007-02-01",format = "%Y-%m-%d"))
+edata2 <- subset(edata2,Date < strptime("2007-02-03",format = "%Y-%m-%d"))
 
 # now we have the proper subset of the data so it is time to plot it
-hist(edata2$Global_active_power,col = "red",xlab="Global Active Power (kilowatts)",main="Global Active Power")
-#title(main="Global Active Power")
+# histogram
+png(file="plot1.png")
+hist(edata2$Global_active_power,col = "orangered2",xlab="Global Active Power (kilowatts)",main="Global Active Power")
 
 # save the plot to a png file
-dev.copy(png, file = "plot1.png") ## Copy my plot to a PNG file
-dev.off() ## Don't forget to close the PNG device!
+#dev.copy(png, file = "plot1.png") ## Copy my plot to a PNG file
+dev.off()                         ## Don't forget to close the PNG device!

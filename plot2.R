@@ -1,13 +1,19 @@
-## plot1.R
+## plot2.R
 # Coursera Exploratory Data Analysis 2014
 # Course Project 1
+#
+# Goal: to reproduce a given plot.
+#
 # by Janne Simonen
 
-# Data Description: Measurements of electric power consumption in one household with a one-minute sampling rate over a period of almost 4 years. Different electrical quantities and some sub-metering values are available.
+# Data Description: Measurements of electric power consumption in one household
+# with a one-minute sampling rate over a period of almost 4 years. Different
+# electrical quantities and some sub-metering values are available.
 # 
-# The following descriptions of the 9 variables in the dataset are taken from the UCI web site:
+# The following descriptions of the 9 variables in the dataset are taken from
+# the UCI web site:
 #   
-#   Date: Date in format dd/mm/yyyy
+# Date: Date in format dd/mm/yyyy
 # Time: time in format hh:mm:ss
 # Global_active_power: household global minute-averaged active power (in kilowatt)
 # Global_reactive_power: household global minute-averaged reactive power (in kilowatt)
@@ -34,10 +40,11 @@ edata2 <- subset(edata2,Date < strptime("2007-02-03",format = "%Y-%m-%d"))
 # make the line plot
 # my locale is not English, so to get the x-axis right I need to change it
 Sys.setlocale(category = "LC_TIME", locale="English")
+png(file="plot2.png")
 plot(edata2$Date,edata2$Global_active_power,type="l",xlab="",ylab="Global Active Power (kilowatts)")
 
 # save the plot to a png file
-dev.copy(png, file = "plot2.png") ## Copy my plot to a PNG file
-dev.off() ## Don't forget to close the PNG device!
+#dev.copy(png, file = "plot2.png") ## Copy my plot to a PNG file
+dev.off()                         ## Don't forget to close the PNG device!
 
 
